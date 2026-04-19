@@ -20,7 +20,6 @@ COPY --from=build /build/src/main/resources/templates ./resources/templates
 COPY --from=build /build/src/main/resources/static ./resources/static
 
 EXPOSE 8080
-EXPOSE 35729
 
 ENTRYPOINT ["java", "-jar", "app.jar", \
   "--spring.thymeleaf.prefix=file:/app/resources/templates/", \
