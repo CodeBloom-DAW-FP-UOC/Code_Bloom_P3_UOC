@@ -30,7 +30,7 @@ public class RentalController {
 
     @GetMapping
     public String listEnabledRentals(Model model) {
-        model.addAttribute("rentals", rentalService.getAllEnabledRentals();
+        model.addAttribute("rentals", rentalService.getAllEnabledRentals());
         return "rentals/list";
     }
 
