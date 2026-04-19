@@ -2,6 +2,7 @@ package CodeBloom.AlquilaTusVehiculos.controllers;
 
 import CodeBloom.AlquilaTusVehiculos.models.Vehicle;
 import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
+import CodeBloom.AlquilaTusVehiculos.services.VehicleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/vehicles")
 public class VehicleController {
 
-    private final VehicleRepository vehicleRepository;
+    private final VehicleService vehicleService;
 
-    public VehicleController(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
+    public VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
     }
 
     @GetMapping
     public String listVehicles(Model model) {
-        model.addAttribute("vehicles", vehicleRepository.findAll());
+        model.addAttribute("vehicles", vehicleService.getAllVehicles());
         return "vehicles/list";
     }
 
@@ -30,13 +31,13 @@ public class VehicleController {
 
     @PostMapping("/save")
     public String saveVehicle(@ModelAttribute Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
+        vehicleService.saveVehicle(vehicle);
         return "redirect:/vehicles";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Vehicle vehicle = vehicleRepository.findById(id).orElse(null);
+        Vehicle vehicle = vehicleService.getVehicleById(id).orElse(null);
 
         if (vehicle == null) {
             return "redirect:/vehicles";
@@ -48,7 +49,7 @@ public class VehicleController {
 
     @GetMapping("/delete/{id}")
     public String deleteVehicle(@PathVariable Long id) {
-        vehicleRepository.deleteById(id);
+        vehicleService.deleteVehicle(id);
         return "redirect:/vehicles";
     }
 }
