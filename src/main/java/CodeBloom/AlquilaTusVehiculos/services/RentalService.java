@@ -6,6 +6,7 @@ import CodeBloom.AlquilaTusVehiculos.models.Vehicle;
 import CodeBloom.AlquilaTusVehiculos.repositories.RentalRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.UserRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class RentalService {
     private RentalRepository rentalRepository;
     private UserRepository userRepository;
