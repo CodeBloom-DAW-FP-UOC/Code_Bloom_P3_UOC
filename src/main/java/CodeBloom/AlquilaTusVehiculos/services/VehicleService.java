@@ -2,10 +2,12 @@ package CodeBloom.AlquilaTusVehiculos.services;
 
 import CodeBloom.AlquilaTusVehiculos.models.Vehicle;
 import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class VehicleService {
     private VehicleRepository vehicleRepository;
 
