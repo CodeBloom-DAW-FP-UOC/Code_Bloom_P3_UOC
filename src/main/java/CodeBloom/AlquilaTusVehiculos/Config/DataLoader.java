@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class DataLoader implements CommandLineRunner {
                     Rental.builder()
                             .startDate(LocalDateTime.now().minusDays(5))
                             .estimatedReturnDate(LocalDateTime.now().plusDays(2))
-                            .price(315.0)
+                            .price(BigDecimal.valueOf(315.0))
                             .note("Sin incidencias.")
                             .state("Actiu")
                             .user(user1)
@@ -107,7 +108,7 @@ public class DataLoader implements CommandLineRunner {
                             .startDate(LocalDateTime.now().minusDays(10))
                             .estimatedReturnDate(LocalDateTime.now().minusDays(3))
                             .returnDate(LocalDateTime.now().minusDays(3))
-                            .price(245.0)
+                            .price(BigDecimal.valueOf(245.0))
                             .note("Devuelto con un golpe en la puerta.")
                             .state("Finalitzat")
                             .user(user2)

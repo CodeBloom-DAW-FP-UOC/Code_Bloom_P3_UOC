@@ -9,6 +9,7 @@ import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -45,8 +46,8 @@ public class RentalService {
             throw new IllegalArgumentException("Debes indicar ambas fechas.");
         }
 
-        if (startDate.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("La fecha de inicio de no puede ser anterior a hoy.");
+        if (startDate.toLocalDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha de inicio no puede ser anterior a hoy.");
         }
 
         if (estimatedReturnDate.isBefore(startDate)) {
@@ -64,8 +65,7 @@ public class RentalService {
         newRental.setStartDate(startDate);
         newRental.setEstimatedReturnDate(estimatedReturnDate);
 
-        BigDecimal totalPrice = calculateTotalPrice(startDate, estimatedReturnDate, vehicle.getDailyPrice());
-        newRental.setPrice(totalPrice.doubleValue());
+        newRental.setPrice(calculateTotalPrice(startDate, estimatedReturnDate, vehicle.getDailyPrice()));
 
         return rentalRepository.save(newRental);
     }
@@ -101,7 +101,7 @@ public class RentalService {
         }
 
         BigDecimal newPrice = calculateTotalPrice(rentalDetails.getStartDate(), rentalDetails.getEstimatedReturnDate(), rentalDetails.getVehicle().getDailyPrice());
-        rental.setPrice(newPrice.doubleValue());
+        rental.setPrice(newPrice);
 
         rental.setNote(rentalDetails.getNote());
 

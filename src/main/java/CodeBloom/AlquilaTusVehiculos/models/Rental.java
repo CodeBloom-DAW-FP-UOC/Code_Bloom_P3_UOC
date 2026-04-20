@@ -2,6 +2,8 @@ package CodeBloom.AlquilaTusVehiculos.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,7 +22,7 @@ public class Rental {
     private LocalDateTime estimatedReturnDate;
     private LocalDateTime returnDate;
 
-    private Double price;
+    private BigDecimal price;
     private String note;
     private String state;
 

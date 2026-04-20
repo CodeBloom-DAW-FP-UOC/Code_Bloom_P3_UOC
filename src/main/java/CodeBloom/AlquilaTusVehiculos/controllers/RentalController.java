@@ -28,13 +28,13 @@ public class RentalController {
         this.vehicleService = vehicleService;
     }
 
-    @GetMapping
+    @GetMapping("/rentals")
     public String listEnabledRentals(Model model) {
         model.addAttribute("rentals", rentalService.getAllEnabledRentals());
         return "rentals/list";
     }
 
-    @GetMapping
+    @GetMapping("/admin/rentals")
     public String listRentals(Model model){
         model.addAttribute("rentals", rentalService.getAllRentals());
         return "rentals/list";
@@ -49,8 +49,8 @@ public class RentalController {
 
     @PostMapping("/save")
     public String saveRental(@ModelAttribute Rental rental,
-                             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime startDate,
-                             @RequestParam("estimatedReturnDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime estimatedReturnDate,
+                             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                             @RequestParam("estimatedReturnDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime estimatedReturnDate,
                              Model model) {
 
         try {
