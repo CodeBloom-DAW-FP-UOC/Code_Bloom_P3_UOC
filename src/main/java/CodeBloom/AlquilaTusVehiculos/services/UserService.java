@@ -4,14 +4,20 @@ import CodeBloom.AlquilaTusVehiculos.Config.PasswordUtils;
 import CodeBloom.AlquilaTusVehiculos.models.User;
 import CodeBloom.AlquilaTusVehiculos.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private PasswordUtils passwordUtils;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -42,7 +48,7 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found."));
 
         if (!user.getIsAdmin()) {
-            user.setPassword(passwordUtils.hashPassword(newPassword));
+            user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
         }
     }
