@@ -28,7 +28,7 @@ public class UserService {
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found."));
 
-        if (user.getIsAdmin() == false) {
+        if (!user.getIsAdmin()) {
             user.setName(userDetails.getName());
             user.setPhone(userDetails.getPhone());
             user.setAddress(userDetails.getAddress());
@@ -41,7 +41,7 @@ public class UserService {
     public void resetPassword(Long id, String newPassword) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found."));
 
-        if (user.getIsAdmin() == false) {
+        if (!user.getIsAdmin()) {
             user.setPassword(passwordUtils.hashPassword(newPassword));
             userRepository.save(user);
         }

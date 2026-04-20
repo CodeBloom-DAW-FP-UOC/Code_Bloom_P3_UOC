@@ -24,6 +24,9 @@ public class Rental {
     private String note;
     private String state;
 
+    @Builder.Default
+    private boolean isEnabled = true;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
