@@ -1,6 +1,6 @@
 package CodeBloom.AlquilaTusVehiculos;
 
-import CodeBloom.AlquilaTusVehiculos.Config.PasswordUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import CodeBloom.AlquilaTusVehiculos.models.User;
 import CodeBloom.AlquilaTusVehiculos.repositories.UserRepository;
 import CodeBloom.AlquilaTusVehiculos.services.UserService;
@@ -23,7 +23,7 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private PasswordUtils passwordUtils;
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
@@ -110,7 +110,7 @@ public class UserServiceTest {
         user.setIsAdmin(false);
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        when(passwordUtils.hashPassword("novaContrasenya")).thenReturn("hashedPassword");
+        when(passwordEncoder.encode("novaContrasenya")).thenReturn("hashedPassword");
 
         userService.resetPassword(1l, "novaContrasenya");
 
