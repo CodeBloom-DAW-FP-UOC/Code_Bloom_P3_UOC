@@ -28,7 +28,7 @@ public class RentalController {
         this.vehicleService = vehicleService;
     }
 
-    @GetMapping("/rentals")
+    @GetMapping
     public String listEnabledRentals(Model model) {
         model.addAttribute("rentals", rentalService.getAllEnabledRentals());
         return "rentals/list";
@@ -79,7 +79,7 @@ public class RentalController {
 
     @GetMapping("/delete/{id}")
     public String deleteRental(@PathVariable Long id) {
-        rentalService.softDeleteVehicle(id);
+        rentalService.softDeleteRental(id);
         return "redirect:/rentals/new";
     }
 

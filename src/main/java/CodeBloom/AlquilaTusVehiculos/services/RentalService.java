@@ -17,9 +17,18 @@ import java.util.Optional;
 
 @Service
 public class RentalService {
-    private RentalRepository rentalRepository;
-    private UserRepository userRepository;
-    private VehicleRepository vehicleRepository;
+
+    private final RentalRepository rentalRepository;
+    private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
+
+    public RentalService(RentalRepository rentalRepository,
+                         UserRepository userRepository,
+                         VehicleRepository vehicleRepository) {
+        this.rentalRepository = rentalRepository;
+        this.userRepository = userRepository;
+        this.vehicleRepository = vehicleRepository;
+    }
 
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();
@@ -108,13 +117,13 @@ public class RentalService {
         return rentalRepository.save(rental);
     }
 
-    public void softDeleteVehicle(Long id) {
+    public void softDeleteRental(Long id) {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found."));
         rental.setEnabled(false);
         rentalRepository.save(rental);
     }
 
-    public void hardDeleteVehicle(Long id) {
+    public void hardDeleteRental(Long id) {
         rentalRepository.deleteById(id);
     }
 

@@ -9,7 +9,10 @@ import java.util.Optional;
 
 @Service
 public class VehicleService {
-    private VehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository;
+    public VehicleService(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
+    }
 
     public List<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
