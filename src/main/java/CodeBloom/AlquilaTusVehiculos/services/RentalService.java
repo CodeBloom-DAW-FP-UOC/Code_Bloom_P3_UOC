@@ -7,6 +7,7 @@ import CodeBloom.AlquilaTusVehiculos.repositories.RentalRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.UserRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -123,8 +124,17 @@ public class RentalService {
         rentalRepository.save(rental);
     }
 
+    @Transactional
     public void hardDeleteRental(Long id) {
-        rentalRepository.deleteById(id);
+        Rental rental = rentalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rental not found."));
+
+        rental.setUser(null);
+        rental.setVehicle(null);
+
+        rentalRepository.save(rental);
+
+        rentalRepository.delete(rental);
     }
 
     private BigDecimal calculateTotalPrice(LocalDateTime startDate, LocalDateTime estimatedReturnDate, double dailyPrice) {
