@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso denegado | AlquilaTusVehiculos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/users.css}">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar('')"></div>
+
+<main class="users-page" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+    <div style="text-align: center;">
+        <p style="font-size: 80px; font-weight: 700; color: #f6bcc8; margin: 0;">403</p>
+        <h1 style="font-size: 24px; margin: 8px 0;">Acceso denegado</h1>
+        <p style="color: #888; margin-bottom: 24px;">No tienes permiso para acceder a esta página.</p>
+        <a th:href="@{/dashboard}" class="btn btn-primary"
+           style="height: 36px; padding: 0 18px; font-size: 13px; border-radius: 8px; background: #f6bcc8; color: white; border: none; font-weight: 700; display: inline-flex; align-items: center; text-decoration: none;">
+            Volver al dashboard
+        </a>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

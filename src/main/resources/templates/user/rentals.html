@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Alquileres | AlquilaTusVehiculos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/create.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar('rentals')"></div>
+
+<main class="rental-page">
+    <section class="page-heading">
+        <div class="page-heading-text">
+            <h1>Mis Alquileres</h1>
+            <p>Historial de tus alquileres</p>
+        </div>
+        <a th:href="@{/user/rentals/new}" class="btn btn-primary" style="margin-left:auto;">+ Nuevo alquiler</a>
+    </section>
+
+    <section class="rentals-summary">
+        <div class="table-wrapper" th:if="${rentals != null and !#lists.isEmpty(rentals)}">
+            <table class="rentals-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehículo</th>
+                    <th>Inicio</th>
+                    <th>Fin previsto</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="r : ${rentals}">
+                    <td th:text="${r.id}"></td>
+                    <td th:text="${r.vehicle != null ? r.vehicle.brand + ' ' + r.vehicle.model : '-'}"></td>
+                    <td th:text="${r.startDate != null ? #temporals.format(r.startDate, 'dd/MM/yyyy') : '-'}"></td>
+                    <td th:text="${r.estimatedReturnDate != null ? #temporals.format(r.estimatedReturnDate, 'dd/MM/yyyy') : '-'}"></td>
+                    <td th:text="${r.price != null ? r.price + ' €' : 'Pendiente'}"></td>
+                    <td th:text="${r.state != null ? r.state : '-'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="empty-rentals" th:if="${rentals == null or #lists.isEmpty(rentals)}">
+            <p>No tienes alquileres registrados. ¡Crea uno nuevo!</p>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
