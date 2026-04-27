@@ -30,8 +30,11 @@ public class AdminRentalController {
 
     @GetMapping
     public String listRentals(Model model) {
+        model.addAttribute("rental", new Rental());
         model.addAttribute("rentals", rentalService.getAllRentals());
-        return "rentals/list";
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("vehicles", vehicleService.getAllVehicles());
+        return "rentals/create";
     }
 
     @GetMapping("/new")

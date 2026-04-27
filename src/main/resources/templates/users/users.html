@@ -19,7 +19,7 @@
 
 <main class="users-page">
     <section class="page-heading">
-        <a th:href="@{/users}" class="back-arrow">←</a>
+        <a th:href="@{/admin/users}" class="back-arrow">←</a>
         <div class="page-heading-text">
             <h1 th:text="${user.id != null} ? 'Editar Usuario' : 'Nuevo Usuario'">Nuevo Usuario</h1>
             <p>Da de alta usuarios y consulta los registrados en la base de datos</p>
@@ -31,7 +31,7 @@
             <div th:if="${success}" class="message message-success" th:text="${success}"></div>
             <div th:if="${error}" class="message message-error" th:text="${error}"></div>
 
-            <form th:action="@{/users/save}" th:object="${user}" method="post">
+            <form th:action="@{/admin/users/save}" th:object="${user}" method="post">
                 <input type="hidden" th:field="*{id}">
 
                 <div class="form-group">
@@ -71,7 +71,7 @@
                             th:text="${user.id != null} ? 'Actualizar usuario' : 'Crear usuario'">
                         Crear usuario
                     </button>
-                    <a th:href="@{/users}" class="btn btn-secondary">Cancelar</a>
+                    <a th:href="@{/admin/users}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
         </div>
@@ -105,10 +105,10 @@
                     <td th:text="${u.address != null ? u.address : '-'}"></td>
                     <td th:text="${u.drivingLicense != null ? u.drivingLicense : '-'}"></td>
                     <td class="actions-cell">
-                        <a th:href="@{/users/edit/{id}(id=${u.id})}" class="table-btn edit-btn">
+                        <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="table-btn edit-btn">
                             Editar
                         </a>
-                        <a th:href="@{/users/delete/{id}(id=${u.id})}"
+                        <a th:href="@{/admin/users/delete/{id}(id=${u.id})}"
                            class="table-btn delete-btn"
                            onclick="return confirm('¿Seguro que quieres eliminar este usuario?');">
                             Eliminar

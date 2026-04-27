@@ -51,4 +51,10 @@ public class AdminVehicleController {
         });
         return "redirect:/vehicles";
     }
+
+    @GetMapping
+    public String listVehicles(Model model) {
+        model.addAttribute("vehicles", vehicleRepository.findAll());
+        return "vehicles/list";
+    }
 }

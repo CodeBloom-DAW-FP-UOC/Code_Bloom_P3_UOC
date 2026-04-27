@@ -22,8 +22,9 @@
         </div>
     </section>
 
-    <section class="content-layout" style="grid-template-columns: 402px; gap: 0;">
-        <div class="form-panel">
+    <section class="content-layout"
+             style="display:flex; justify-content:center; align-items:center;">
+        <div class="form-panel" style="max-width:420px; width:100%;">
             <div th:if="${error}" class="message message-error" th:text="${error}"></div>
             <form th:action="@{/user/rentals/save}" th:object="${rental}" method="post">
                 <input type="hidden" th:field="*{id}">
@@ -56,6 +57,16 @@
                         <label for="estimatedReturnDate">Fecha Fin</label>
                         <input id="estimatedReturnDate" type="date" name="estimatedReturnDate" required>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Total (€)</label>
+                    <input type="text"
+                           id="price"
+                           value="Calculado automáticamente"
+                           readonly
+                           style="background:#f5f5f5; color:#666;">
+                    <small>El precio se calculará automáticamente al guardar</small>
                 </div>
 
                 <div class="form-group">
