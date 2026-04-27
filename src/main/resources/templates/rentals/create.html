@@ -16,7 +16,7 @@
 
 <main class="rental-page">
     <section class="page-heading">
-        <a th:href="@{/rentals}" class="back-arrow">←</a>
+        <a th:href="@{/admin/rentals}" class="back-arrow">←</a>
         <div class="page-heading-text">
             <h1 th:text="${rental.id != null} ? 'Editar Alquiler' : 'Nuevo Alquiler'">Nuevo Alquiler</h1>
             <p>Completa los detalles del alquiler</p>
@@ -26,7 +26,8 @@
     <section class="content-layout">
         <div class="form-panel">
             <div th:if="${success}" class="message message-success" th:text="${success}"></div>
-            <form th:action="@{/rentals/save}" th:object="${rental}" method="post">
+            <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+            <form th:action="@{/admin/rentals/save}" th:object="${rental}" method="post">
                 <input type="hidden" th:field="*{id}">
 
                 <div class="form-group">
@@ -104,7 +105,7 @@
                             th:text="${rental.id != null} ? 'Actualizar alquiler' : 'Crear alquiler'">
                         Crear alquiler
                     </button>
-                    <a th:href="@{/rentals}" class="btn btn-secondary">Cancelar</a>
+                    <a th:href="@{/admin/rentals}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
         </div>
@@ -118,7 +119,9 @@
             <div class="fleet-grid" th:if="${vehicles != null and !#lists.isEmpty(vehicles)}">
                 <article class="vehicle-card" th:each="v : ${vehicles}">
                     <div class="vehicle-image">
-                        <div class="vehicle-image-placeholder">Sin imagen</div>
+                        <div class="vehicle-image-placeholder">
+                            <i class="fa-solid fa-car-side" style="font-size: 40px; color: #ccc;"></i>
+                        </div>
                     </div>
                     <div class="vehicle-body">
                         <h3 th:text="${v.brand + ' ' + v.model}">Vehículo</h3>
@@ -171,10 +174,10 @@
                     <td th:text="${r.price != null ? r.price + ' €' : '-'}">120 €</td>
 
                     <td class="actions-cell">
-                        <a th:href="@{/rentals/edit/{id}(id=${r.id})}" class="table-btn edit-btn">
+                        <a th:href="@{/admin/rentals/edit/{id}(id=${r.id})}" class="table-btn edit-btn">
                             Editar
                         </a>
-                        <a th:href="@{/rentals/delete/{id}(id=${r.id})}"
+                        <a th:href="@{/admin/rentals/delete/{id}(id=${r.id})}"
                            class="table-btn delete-btn"
                            onclick="return confirm('¿Seguro que quieres eliminar este alquiler?');">
                             Eliminar

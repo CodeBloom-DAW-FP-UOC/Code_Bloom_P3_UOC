@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Vehículo | AlquilaTusVehiculos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/users.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar('vehicles')"></div>
+
+<main class="users-page">
+    <section class="page-heading">
+        <a th:href="@{/vehicles}" class="back-arrow">←</a>
+        <div class="page-heading-text">
+            <h1 th:text="${vehicle.id != null} ? 'Editar Vehículo' : 'Nuevo Vehículo'">Vehículo</h1>
+            <p>Completa los datos del vehículo</p>
+        </div>
+    </section>
+
+    <section class="content-layout">
+        <div class="form-panel">
+            <form th:action="@{/admin/vehicles/save}" th:object="${vehicle}" method="post">
+                <input type="hidden" th:field="*{id}">
+
+                <div class="form-group">
+                    <label>Marca</label>
+                    <input type="text" th:field="*{brand}" placeholder="Toyota" required>
+                </div>
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <input type="text" th:field="*{model}" placeholder="Corolla" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Matrícula</label>
+                        <input type="text" th:field="*{plateNumber}" placeholder="1234ABC" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Año</label>
+                        <input type="number" th:field="*{manufacturingYear}" placeholder="2020" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Combustible</label>
+                        <input type="text" th:field="*{gasType}" placeholder="Gasolina" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Kilómetros</label>
+                        <input type="number" th:field="*{km}" placeholder="30000" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Precio/día (€)</label>
+                        <input type="number" step="0.01" th:field="*{dailyPrice}" placeholder="45.00" required>
+                    </div>
+                    <div class="form-group half">
+                        <label>Estado</label>
+                        <input type="text" th:field="*{state}" placeholder="Disponible" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea th:field="*{description}" placeholder="Descripción del vehículo"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary"
+                            th:text="${vehicle.id != null} ? 'Actualizar' : 'Crear vehículo'">
+                        Crear vehículo
+                    </button>
+                    <a th:href="@{/vehicles}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

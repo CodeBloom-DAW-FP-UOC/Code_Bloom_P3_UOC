@@ -10,34 +10,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Controller
-@RequestMapping("/rentals")
-public class RentalController {
+@RequestMapping("/admin/rentals")
+public class AdminRentalController {
 
     private final RentalService rentalService;
     private final UserService userService;
     private final VehicleService vehicleService;
 
-    public RentalController(RentalService rentalService,
-                            UserService userService,
-                            VehicleService vehicleService) {
+    public AdminRentalController(RentalService rentalService,
+                                 UserService userService,
+                                 VehicleService vehicleService) {
         this.rentalService = rentalService;
         this.userService = userService;
         this.vehicleService = vehicleService;
     }
 
     @GetMapping
-    public String listEnabledRentals(Model model) {
-        model.addAttribute("rentals", rentalService.getAllEnabledRentals());
-        return "rentals/list";
-    }
-
-    @GetMapping("/admin/rentals")
-    public String listRentals(Model model){
+    public String listRentals(Model model) {
+        model.addAttribute("rental", new Rental());
         model.addAttribute("rentals", rentalService.getAllRentals());
-        return "rentals/list";
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("vehicles", vehicleService.getAllVehicles());
+        return "rentals/create";
     }
 
     @GetMapping("/new")
@@ -49,29 +46,23 @@ public class RentalController {
 
     @PostMapping("/save")
     public String saveRental(@ModelAttribute Rental rental,
-                             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                             @RequestParam("estimatedReturnDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime estimatedReturnDate,
+                             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                             @RequestParam("estimatedReturnDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate estimatedReturnDate,
                              Model model) {
-
         try {
-            rentalService.saveRental(rental, startDate, estimatedReturnDate);
+            rentalService.saveRental(rental, startDate.atStartOfDay(), estimatedReturnDate.atStartOfDay());
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             loadFormData(model, rental);
             return "rentals/create";
         }
-
-        return "redirect:/rentals/new";
+        return "redirect:/admin/rentals";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Rental rental = rentalService.getRentalById(id).orElse(null);
-
-        if (rental == null) {
-            return "redirect:/rentals/new";
-        }
-
+        if (rental == null) return "redirect:/admin/rentals";
         model.addAttribute("rental", rental);
         loadFormData(model);
         return "rentals/create";
@@ -79,14 +70,18 @@ public class RentalController {
 
     @GetMapping("/delete/{id}")
     public String deleteRental(@PathVariable Long id) {
-        rentalService.softDeleteRental(id);
-        return "redirect:/rentals/new";
+        rentalService.getRentalById(id).ifPresent(rental -> {
+            rental.setUser(null);
+            rental.setVehicle(null);
+            rentalService.hardDeleteRental(rental.getId());
+        });
+        return "redirect:/admin/rentals";
     }
 
     private void loadFormData(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("vehicles", vehicleService.getAllVehicles());
-        model.addAttribute("rentals", rentalService.getAllEnabledRentals());
+        model.addAttribute("rentals", rentalService.getAllRentals());
     }
 
     private void loadFormData(Model model, Rental rental) {

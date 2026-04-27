@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | AlquilaTusVehiculos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body class="dashboard-body">
+<div th:replace="fragments/navbar :: navbar('dashboard')"></div>
+
+<main class="dashboard-container">
+    <section class="hero">
+        <h2 th:text="'Bienvenido, ' + ${user.name}">Bienvenido</h2>
+        <p>Este es tu espacio personal en AlquilaTusVehiculos</p>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <div>
+                <p class="stat-label">Mis Alquileres</p>
+                <h3 class="stat-number" th:text="${totalRentals}">0</h3>
+            </div>
+            <div class="stat-icon yellow">
+                <i class="fa-regular fa-file-lines"></i>
+            </div>
+        </article>
+
+        <article class="stat-card">
+            <div>
+                <p class="stat-label">Vehículos disponibles</p>
+                <h3 class="stat-number" th:text="${totalVehicles}">0</h3>
+            </div>
+            <div class="stat-icon pink">
+                <i class="fa-solid fa-car-side"></i>
+            </div>
+        </article>
+    </section>
+
+    <section class="panel">
+        <h3 class="panel-title">Acciones Rápidas</h3>
+        <div class="actions-grid">
+            <a th:href="@{/user/profile}" class="action-card">
+                <div class="action-icon green">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <div>
+                    <strong>Mi Perfil</strong>
+                    <p>Ver y editar mis datos</p>
+                </div>
+            </a>
+            <a th:href="@{/user/rentals}" class="action-card">
+                <div class="action-icon yellow">
+                    <i class="fa-regular fa-file-lines"></i>
+                </div>
+                <div>
+                    <strong>Mis Alquileres</strong>
+                    <p>Ver mis alquileres activos</p>
+                </div>
+            </a>
+            <a th:href="@{/user/vehicles}" class="action-card">
+                <div class="action-icon pink">
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+                <div>
+                    <strong>Ver Vehículos</strong>
+                    <p>Explorar vehículos disponibles</p>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

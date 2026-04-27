@@ -7,6 +7,7 @@ import CodeBloom.AlquilaTusVehiculos.repositories.RentalRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.UserRepository;
 import CodeBloom.AlquilaTusVehiculos.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,9 +18,18 @@ import java.util.Optional;
 
 @Service
 public class RentalService {
-    private RentalRepository rentalRepository;
-    private UserRepository userRepository;
-    private VehicleRepository vehicleRepository;
+
+    private final RentalRepository rentalRepository;
+    private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
+
+    public RentalService(RentalRepository rentalRepository,
+                         UserRepository userRepository,
+                         VehicleRepository vehicleRepository) {
+        this.rentalRepository = rentalRepository;
+        this.userRepository = userRepository;
+        this.vehicleRepository = vehicleRepository;
+    }
 
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();
@@ -108,14 +118,23 @@ public class RentalService {
         return rentalRepository.save(rental);
     }
 
-    public void softDeleteVehicle(Long id) {
+    public void softDeleteRental(Long id) {
         Rental rental = rentalRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found."));
         rental.setEnabled(false);
         rentalRepository.save(rental);
     }
 
-    public void hardDeleteVehicle(Long id) {
-        rentalRepository.deleteById(id);
+    @Transactional
+    public void hardDeleteRental(Long id) {
+        Rental rental = rentalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rental not found."));
+
+        rental.setUser(null);
+        rental.setVehicle(null);
+
+        rentalRepository.save(rental);
+
+        rentalRepository.delete(rental);
     }
 
     private BigDecimal calculateTotalPrice(LocalDateTime startDate, LocalDateTime estimatedReturnDate, double dailyPrice) {

@@ -115,6 +115,7 @@ public class DataLoader implements CommandLineRunner {
                             .price(BigDecimal.valueOf(315.0))
                             .note("Sin incidencias.")
                             .state("Actiu")
+                            .enabled(true)
                             .user(user1)
                             .vehicle(vehicle1)
                             .build(),
@@ -125,6 +126,7 @@ public class DataLoader implements CommandLineRunner {
                             .price(BigDecimal.valueOf(245.0))
                             .note("Devuelto con un golpe en la puerta.")
                             .state("Finalitzat")
+                            .enabled(true)
                             .user(user2)
                             .vehicle(vehicle2)
                             .build()

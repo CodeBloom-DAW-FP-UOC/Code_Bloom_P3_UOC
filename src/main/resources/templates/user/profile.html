@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil | AlquilaTusVehiculos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/users.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar('profile')"></div>
+
+<main class="users-page">
+    <section class="page-heading">
+        <div class="page-heading-text">
+            <h1>Mi Perfil</h1>
+            <p>Información de tu cuenta</p>
+        </div>
+    </section>
+
+    <section style="display: flex; justify-content: center;">
+        <div class="form-panel" style="max-width: 480px; width: 100%;">
+
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                <div class="nav-user-avatar" style="width: 56px; height: 56px; font-size: 22px;"
+                     th:text="${user.name != null ? user.name.substring(0,1).toUpperCase() : 'U'}">U</div>
+                <div>
+                    <p style="font-size: 16px; font-weight: 700; margin: 0;" th:text="${user.name}">Nombre</p>
+                    <p style="font-size: 13px; color: #888; margin: 0;" th:text="${user.email}">email</p>
+                </div>
+            </div>
+
+            <form th:action="@{/user/profile/save}" th:object="${user}" method="post">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" th:field="*{name}" placeholder="Nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}" placeholder="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" th:field="*{phone}" placeholder="600123123">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" th:field="*{address}" placeholder="Dirección">
+                </div>
+                <div class="form-group">
+                    <label>Carnet de conducir</label>
+                    <input type="text" th:field="*{drivingLicense}" placeholder="12345678X">
+                </div>
+                <div style="margin-top: 16px; display: flex; gap: 10px;">
+                    <button type="submit" class="btn btn-primary"
+                            style="height: 36px; padding: 0 18px; font-size: 13px; border-radius: 8px; background: #f6bcc8; color: white; border: none; font-weight: 700; cursor: pointer;">
+                        Guardar cambios
+                    </button>
+                    <a th:href="@{/user/rentals}" class="btn btn-secondary"
+                       style="height: 36px; padding: 0 18px; font-size: 13px; border-radius: 8px; background: #ececec; color: #676767; border: 1px solid #bfbfbf; font-weight: 700; display: inline-flex; align-items: center; text-decoration: none;">
+                        Mis alquileres
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
